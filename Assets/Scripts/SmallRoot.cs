@@ -12,10 +12,10 @@ public class SmallRoot : MonoBehaviour
     float timeUntilNewRootPoint = 0.08f;
     public float rootTipLenght = 0.1f;
     public LayerMask raycastMask;
-    GM gM;
+    GameManager gM;
 
     Vector3 spawnPos;
-    public void Initialize(Vector3 direc, Vector3 pos, GM _gM, float lifeSpan){
+    public void Initialize(Vector3 direc, Vector3 pos, GameManager _gM, float lifeSpan){
         direction = direc;
         root.SetPosition(0,pos);
         root.SetPosition(1,pos);
@@ -37,7 +37,6 @@ public class SmallRoot : MonoBehaviour
             Water water = hit.collider.GetComponent<Water>();
             if(water!= null){
                 water.Drink();
-                gM.sfx.PlayDrinkSFX();
                 gM.rootControler.health = Mathf.Min(gM.rootControler.health+water.waterAmount,gM.rootControler.maxHealth);
             }else{
                 direction = -direction;

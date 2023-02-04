@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LineCopier : MonoBehaviour
 {
-    public GM gM;
+    public GameManager gM;
     public LineRenderer myLine, modelLine;
     public float thickness;
 
