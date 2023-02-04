@@ -36,8 +36,6 @@ namespace Audio
             {
                 Debug.Log("audio Load that bai: " + name);
             }
-        
-        
         }
 
         public void StopPlayAll()
