@@ -2,20 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioSourceGame : MonoBehaviour
+namespace Audio
 {
-    private void Awake()
+    public class AudioSourceGame : MonoBehaviour
     {
-        if (!AudioManager.instance.Initialized)
+        private void Awake()
         {
-            AudioSource audioSource = gameObject.AddComponent<AudioSource>();
-            AudioManager.instance.Initialze(audioSource);
-            DontDestroyOnLoad(this);
+            if (!AudioManager.instance.Initialized)
+            {
+                AudioSource audioSource = gameObject.AddComponent<AudioSource>();
+                AudioManager.instance.Initialze(audioSource);
+                DontDestroyOnLoad(this);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
     
+    }
 }
+
+
