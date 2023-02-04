@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c55ea834eb969bf45acac7a5c5494591, type: 3}
+  m_Name: Simple Trash
+  m_EditorClassIdentifier: 
+  tiles:
+  - {fileID: 4940874971752591628, guid: 20922a4cebe0d4446ae2dcac89a97bfb, type: 3}
+  - {fileID: 369159682793378058, guid: 9f01c6e884ca1d94bb4dca2a4fb9447c, type: 3}
+  - {fileID: 8637626122690147813, guid: e704a3d4117763346bf9a9305a9d754e, type: 3}
+  - {fileID: 7944694496881369859, guid: 725b17e42d7e1d744b28cc92264be543, type: 3}
+  - {fileID: 1728809242507352158, guid: dc86f625b4bc54b4ebcc853d8a57c7fc, type: 3}
+  - {fileID: 7968700917262269989, guid: 20e9c5d01fe6cd547a47fe1f366f2937, type: 3}
+  - {fileID: 2549290477418254619, guid: 19fd9c5a74563094484bf944e88f406e, type: 3}
+  - {fileID: 7148307161646017958, guid: b5a03690351be0040a893e9347c376d1, type: 3}

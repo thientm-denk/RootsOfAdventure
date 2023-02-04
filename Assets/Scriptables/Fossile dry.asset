@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c55ea834eb969bf45acac7a5c5494591, type: 3}
+  m_Name: Fossile dry
+  m_EditorClassIdentifier: 
+  tiles:
+  - {fileID: 8386546450111695798, guid: beb3298accf9c234e845aa31fcb34c28, type: 3}
+  - {fileID: 6177923117485914519, guid: a87bcd282044d6d489f7e95256a306d5, type: 3}
+  - {fileID: 8876200707653407814, guid: 03f884f740130824696f8ab099fd3ba3, type: 3}
+  - {fileID: 7186681571985107859, guid: be173e656e974754a92d8d7892f9ab71, type: 3}
+  - {fileID: 574617402772490218, guid: 44a5a52a2c283f646918b72c30a1ade4, type: 3}

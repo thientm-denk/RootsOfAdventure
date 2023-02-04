@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c55ea834eb969bf45acac7a5c5494591, type: 3}
+  m_Name: Ore dry
+  m_EditorClassIdentifier: 
+  tiles:
+  - {fileID: 1810902517943386795, guid: 8f238f516e9656f439b274a2d29e4be8, type: 3}
+  - {fileID: 8081564125599578280, guid: 8b9cfa82f3d88db48a843d791861b2fc, type: 3}
+  - {fileID: 7262237737201161564, guid: e663d505f3204c543bc164126936de68, type: 3}
+  - {fileID: 902171116147251630, guid: a0b4fb146e494494c83840380b165880, type: 3}
+  - {fileID: 3946952073493398945, guid: e6dc4b83ea35a3441b045be2b8e7acf8, type: 3}

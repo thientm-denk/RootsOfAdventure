@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c55ea834eb969bf45acac7a5c5494591, type: 3}
+  m_Name: Ore poisoned
+  m_EditorClassIdentifier: 
+  tiles:
+  - {fileID: 7489764114768215081, guid: 98848b18155e5214e864109aa32f8db8, type: 3}
+  - {fileID: 410983500186288100, guid: 0ddf16b8807335f45a5cff3748ff1c04, type: 3}

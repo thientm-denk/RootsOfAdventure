@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c55ea834eb969bf45acac7a5c5494591, type: 3}
+  m_Name: Pipe poisoned
+  m_EditorClassIdentifier: 
+  tiles:
+  - {fileID: 8032348221069990487, guid: 6ba54bad8da58ef4599729085bd0b2df, type: 3}
+  - {fileID: 9093389329043613022, guid: 641c2c634244e5d45b614992f198d807, type: 3}

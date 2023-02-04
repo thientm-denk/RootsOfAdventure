@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c55ea834eb969bf45acac7a5c5494591, type: 3}
+  m_Name: Ore wet
+  m_EditorClassIdentifier: 
+  tiles:
+  - {fileID: 4638112754260937644, guid: e8bf596592358674dae2ae895d88c686, type: 3}
+  - {fileID: 5542033557700146154, guid: d120156de380c2a4c847272db881b702, type: 3}
+  - {fileID: 5810566211643526807, guid: c94280342e1c599489c7f2f3bff91f85, type: 3}
