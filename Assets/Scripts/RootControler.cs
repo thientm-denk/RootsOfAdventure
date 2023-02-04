@@ -11,7 +11,7 @@ public class RootControler : MonoBehaviour
     public LineRenderer root;
     public GameObject smallRootPrefab;
     public Camera mainCamera;
-    public Transform rootTarget;
+    public RootTarget rootTarget;
     public float rootTipLenght;
     public float timeUntilNewRootPoint;
     public float currentTimeUntilNewRootPoint;
@@ -84,7 +84,7 @@ public class RootControler : MonoBehaviour
         gM.timer += Time.deltaTime;
         if (poisonned > 0f)
         {
-            health -= Time.deltaTime * gM.CapStrength;
+            health -= Time.deltaTime * gM.CapStrength/2;
             poisonned -= Time.deltaTime;
         }
 
@@ -102,7 +102,7 @@ public class RootControler : MonoBehaviour
 
         worldPosition = new Vector3(worldPosition.x, worldPosition.y, 0);
 
-        rootTarget.position = worldPosition;
+        rootTarget.transform.position = worldPosition;
     }
 
 
@@ -110,8 +110,10 @@ public class RootControler : MonoBehaviour
     {
         UpdateRootTip();
 
+        rootTarget.PowerIcon.SetActive(isPowerBuff);
+        rootTarget.SpeedIcon.SetActive(isSpeedBuff);
         Vector3 lastPosition = root.GetPosition(rootPointIndex - 1);
-        Vector3 direction = rootTarget.position - lastPosition;
+        Vector3 direction = rootTarget.transform.position - lastPosition;
         direction = direction.normalized * rootTipLenght;
 
         // check if on rock
@@ -157,8 +159,16 @@ public class RootControler : MonoBehaviour
             if (hit.collider.CompareTag("Booster"))
             {
                 Buff buff = hit.collider.GetComponent<Buff>();
-                if (buff.Type == Buff.BuffType.Speed) StartCoroutine(StartSpeedBuff());
-                if (buff.Type == Buff.BuffType.Power) StartCoroutine(StartPowerBuff());
+                if (buff.Type == Buff.BuffType.Speed)
+                {
+                    StopCoroutine(StartSpeedBuff());
+                    StartCoroutine(StartSpeedBuff());
+                }
+                if (buff.Type == Buff.BuffType.Power)
+                {
+                    StopCoroutine(StartPowerBuff());
+                    StartCoroutine(StartPowerBuff());
+                }
                 Destroy(hit.collider.gameObject);
             }
 
@@ -176,7 +186,7 @@ public class RootControler : MonoBehaviour
     void UpdateRootTip()
     {
         Vector3 lastPosition = root.GetPosition(rootPointIndex - 1);
-        Vector3 direction = rootTarget.position - lastPosition;
+        Vector3 direction = rootTarget.transform.position - lastPosition;
         direction = direction.normalized * rootTipLenght;
         root.SetPosition(rootPointIndex, lastPosition + direction);
     }
@@ -222,7 +232,7 @@ public class RootControler : MonoBehaviour
             depth = lastPosition.y;
         }
 
-        Vector3 direction = rootTarget.position - lastPosition;
+        Vector3 direction = rootTarget.transform.position - lastPosition;
         if (direction.normalized.y < -gM.CapUpward)
         {
             currentTimeUntilNewRootPoint -= Time.fixedDeltaTime;
@@ -234,7 +244,7 @@ public class RootControler : MonoBehaviour
         }
 
 
-            if(currentTimeUntilNewRootPoint <= 0 && Vector3.Distance(rootTarget.position, lastPosition)>rootTipLenght*5f){
+            if(currentTimeUntilNewRootPoint <= 0 && Vector3.Distance(rootTarget.transform.position, lastPosition)>rootTipLenght*5f){
                 root.positionCount = root.positionCount + 1;
                 rootPointIndex++;
                 if(rootPointIndex%(int)(40f/gM.CapRoot+3f) == 0){
@@ -243,7 +253,7 @@ public class RootControler : MonoBehaviour
                     smallRoots.Add(smallRoot.gameObject);
 
                 }
-                currentTimeUntilNewRootPoint = timeUntilNewRootPoint * ( isSpeedBuff ? gM.CapSpeed /10 : gM.CapSpeed) ;
+                currentTimeUntilNewRootPoint = timeUntilNewRootPoint * ( isSpeedBuff ? gM.CapSpeed /10 : gM.CapSpeed/2 ) ;
                 UpdateRootTip();
                 //gM.sfx.PlayGrowingSFX();
             }

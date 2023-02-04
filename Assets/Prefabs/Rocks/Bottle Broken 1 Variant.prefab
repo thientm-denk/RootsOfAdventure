@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 1637179738129823008, guid: 6147a19c0861d744ea1e65bb8bb7d31f,
         type: 3}
       propertyPath: m_Name
-      value: Bottle Broken 1
+      value: Bottle Broken 1 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 1637179738129823009, guid: 6147a19c0861d744ea1e65bb8bb7d31f,
         type: 3}
