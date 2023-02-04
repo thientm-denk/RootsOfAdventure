@@ -245,7 +245,7 @@ public class RootControler : MonoBehaviour
                 }
                 currentTimeUntilNewRootPoint = timeUntilNewRootPoint * ( isSpeedBuff ? gM.CapSpeed /10 : gM.CapSpeed) ;
                 UpdateRootTip();
-                gM.sfx.PlayGrowingSFX();
+                //gM.sfx.PlayGrowingSFX();
             }
     }
 
