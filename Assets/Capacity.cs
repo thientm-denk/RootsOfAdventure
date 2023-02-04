@@ -54,7 +54,6 @@ public class Capacity : MonoBehaviour
         gM.cash -= cost[level];
         level++;
         PlayerPrefs.SetInt("Cap" + capacityID, level);
-        gM.sfx.PlayNoteSFX(8 + level);
         gM.capacities[capacityID]++;
         for (var i = 0; i < slots.Count; i++)
         {

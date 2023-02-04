@@ -41,7 +41,6 @@ public class CameraControler : MonoBehaviour
     IEnumerator DeathCam()
     {
         float t = 0;
-        gameManager.sfx.DieSFX();
         while (t < 1f)
         {
             t += Time.deltaTime;
@@ -52,8 +51,7 @@ public class CameraControler : MonoBehaviour
             mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, targetPos, lerpSpeed);
             yield return null;
         }
-
-        gameManager.sfx.StartRise();
+        
 
         for (var i = 0;
             i < gameManager.rootControler.rootPointIndex;
@@ -93,7 +91,6 @@ public class CameraControler : MonoBehaviour
         );
         gameManager.rootControler.root.colorGradient = endGradient;
         gameManager.ui.ShowDeathUI();
-        gameManager.sfx.Blossom();
 
         while (gameManager.rootControler.dead)
         {
@@ -115,7 +112,6 @@ public class CameraControler : MonoBehaviour
     IEnumerator EndCam()
     {
         float t = 0;
-        gameManager.sfx.EndSfx();
         while (t < 1f)
         {
             t += Time.deltaTime;
@@ -141,8 +137,7 @@ public class CameraControler : MonoBehaviour
             mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, targetPos, 1f);
             yield return null;
         }
-
-        gameManager.sfx.StartRise();
+        
 
         for (var i = 0;
             i < gameManager.rootControler.rootPointIndex;

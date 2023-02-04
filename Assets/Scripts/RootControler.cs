@@ -136,7 +136,6 @@ public class RootControler : MonoBehaviour
             if (water != null)
             {
                 water.Drink();
-                gM.sfx.PlayDrinkSFX();
                 health = Mathf.Min(health + water.waterAmount, maxHealth);
                 Move();
                 for (var i = 0; i < 3; i++)
@@ -151,7 +150,6 @@ public class RootControler : MonoBehaviour
             Poison poison = hit.collider.GetComponent<Poison>();
             if (poison != null)
             {
-                gM.sfx.HurtSfx();
                 poisonned = Mathf.Min(4f, poisonned + 1f);
                 Move();
             }
@@ -236,7 +234,6 @@ public class RootControler : MonoBehaviour
 
             currentTimeUntilNewRootPoint = timeUntilNewRootPoint * gM.CapSpeed;
             UpdateRootTip();
-            gM.sfx.PlayGrowingSFX();
         }
     }
 }

@@ -4725,7 +4725,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b22bc9dbe2880a5458c8dbd8a46f25f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gm: {fileID: 1905595501}
+  gameManager: {fileID: 1905595501}
   mainCamera: {fileID: 223006834}
   lerpSpeed: 0.05
   border: {x: -1.4, y: 1.4}
@@ -11799,7 +11799,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.92549026, g: 0.8862746, b: 0.81568635, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -11807,7 +11807,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: b0c9e17623804a74e8728da2cb7df53e, type: 3}
+    m_Font: {fileID: 12800000, guid: 09b663122bafd614b8ade3c6c562c955, type: 3}
     m_FontSize: 35
     m_FontStyle: 1
     m_BestFit: 0
@@ -14531,7 +14531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4784314, g: 0.39607847, b: 0.38823533, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -14539,7 +14539,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: b0c9e17623804a74e8728da2cb7df53e, type: 3}
+    m_Font: {fileID: 12800000, guid: 09b663122bafd614b8ade3c6c562c955, type: 3}
     m_FontSize: 35
     m_FontStyle: 1
     m_BestFit: 0
@@ -14551,7 +14551,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: OneChainTeam
+  m_Text: OneChain
 --- !u!222 &1395146191
 CanvasRenderer:
   m_ObjectHideFlags: 0

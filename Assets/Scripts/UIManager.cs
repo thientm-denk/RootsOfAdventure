@@ -102,7 +102,6 @@ public class UIManager : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         gM.maxDepth = Mathf.Min(gM.maxDepth, (int) gM.rootControler.depth * 10);
-        gM.sfx.Replay();
         restartButton.SetActive(true);
         upgradeUI.SetActive(true);
     }
@@ -126,7 +125,6 @@ public class UIManager : MonoBehaviour
         }
 
         tiges[11].Initialize(1, 0, gM);
-        gM.sfx.BlossomEnd();
         if (!gM.newGamePlus)
         {
             yield return new WaitForSeconds(1f);
@@ -136,7 +134,6 @@ public class UIManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(1f);
-        gM.sfx.Replay();
         deathUI.SetActive(true);
         upgradeUI.SetActive(true);
         restartButton.SetActive(true);

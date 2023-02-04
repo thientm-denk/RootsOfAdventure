@@ -37,7 +37,6 @@ public class SmallRoot : MonoBehaviour
             Water water = hit.collider.GetComponent<Water>();
             if(water!= null){
                 water.Drink();
-                gM.sfx.PlayDrinkSFX();
                 gM.rootControler.health = Mathf.Min(gM.rootControler.health+water.waterAmount,gM.rootControler.maxHealth);
             }else{
                 direction = -direction;

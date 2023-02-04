@@ -67,7 +67,6 @@ public class EndFlower : MonoBehaviour
                 tp = 0;
                 flowers[0].localScale = Vector3.one * 2f;
                 gM.cash++;
-                gM.sfx.PlayNoteSFX((i + baseTone) / 5);
                 while (tp < 1f)
                 {
                     flowers[0].localScale = Vector3.Lerp(flowers[0].localScale, Vector3.one, tp);

@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
     public RootControler rootControler;
     public CameraControler cameraControler;
     public UIManager ui;
-    public AudioManager sfx;
 
     public int cash;
     public int maxDepth;
