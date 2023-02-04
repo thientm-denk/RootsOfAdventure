@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Capacity : MonoBehaviour
 {
-    public GM gM;
+    public GameManager gM;
     public int capacityID;
     public int level;
 
@@ -24,39 +24,50 @@ public class Capacity : MonoBehaviour
         level = gM.capacities[capacityID];
         for (var i = 0; i < slots.Count; i++)
         {
-            slots[i].color = i >= level? on : off;
+            slots[i].color = i >= level ? on : off;
         }
-        if(level < cost.Count){
-            costText.text = ""+cost[level];
-        }else{
+
+        if (level < cost.Count)
+        {
+            costText.text = "" + cost[level];
+        }
+        else
+        {
             costText.text = "MAX";
         }
     }
 
-    private void Update() {
-        if(level < cost.Count){
+    private void Update()
+    {
+        if (level < cost.Count)
+        {
             button.interactable = gM.cash >= cost[level] && level < slots.Count;
-        }else{
+        }
+        else
+        {
             button.interactable = false;
         }
     }
 
-    public void Buy(){
+    public void Buy()
+    {
         gM.cash -= cost[level];
         level++;
-        PlayerPrefs.SetInt("Cap"+capacityID, level);
-        gM.sfx.PlayNoteSFX(8+level);
+        PlayerPrefs.SetInt("Cap" + capacityID, level);
+        gM.sfx.PlayNoteSFX(8 + level);
         gM.capacities[capacityID]++;
         for (var i = 0; i < slots.Count; i++)
         {
-            slots[i].color = i >= level? on : off;
+            slots[i].color = i >= level ? on : off;
         }
-        if(level < cost.Count){
-            costText.text = ""+cost[level];
-        }else{
+
+        if (level < cost.Count)
+        {
+            costText.text = "" + cost[level];
+        }
+        else
+        {
             costText.text = "MAX";
         }
     }
-
-
 }

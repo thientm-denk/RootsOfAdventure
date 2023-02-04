@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public GM gM;
+    public GameManager gM;
     public AudioSource growingSource;
     public List<AudioClip> growSounds;
 

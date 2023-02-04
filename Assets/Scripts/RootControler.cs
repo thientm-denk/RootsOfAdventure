@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class RootControler : MonoBehaviour
 {
-    public GM gM;
+    public GameManager gM;
     public float health = 10f;
     public float maxHealth = 10f;
     public LineRenderer root;
@@ -29,13 +29,16 @@ public class RootControler : MonoBehaviour
 
     public float depth = 0;
     Vector3[] startPositions;
-    private void Start() {
+
+    private void Start()
+    {
         currentTimeUntilNewRootPoint = timeUntilNewRootPoint;
         health = maxHealth;
-        startPositions = new Vector3[]{root.GetPosition(0),root.GetPosition(1),root.GetPosition(2)};
+        startPositions = new Vector3[] {root.GetPosition(0), root.GetPosition(1), root.GetPosition(2)};
     }
 
-    public void StartGame(){
+    public void StartGame()
+    {
         dead = false;
         growing = false;
         currentTimeUntilNewRootPoint = timeUntilNewRootPoint + 1f;
@@ -50,37 +53,51 @@ public class RootControler : MonoBehaviour
         {
             Destroy(smallRoot);
         }
+
         smallRoots.Clear();
     }
 
     void FixedUpdate()
     {
-        if(dead){return;}
+        if (dead)
+        {
+            return;
+        }
+
         UpdateRootTarget();
         UpdateRoot();
         UpdateRootWidth();
     }
 
-    private void Update() {
-        if(dead || !growing){return;}
+    private void Update()
+    {
+        if (dead || !growing)
+        {
+            return;
+        }
+
         UpdateHealth();
     }
 
     private void UpdateHealth()
     {
         gM.timer += Time.deltaTime;
-        if(poisonned>0f){
+        if (poisonned > 0f)
+        {
             health -= Time.deltaTime * gM.CapStrength;
             poisonned -= Time.deltaTime;
         }
+
         health -= Time.deltaTime * gM.CapWater;
-        if(health <=0 && !dead){
+        if (health <= 0 && !dead)
+        {
             dead = true;
             gM.cameraControler.Death();
         }
     }
 
-    void UpdateRootTarget(){
+    void UpdateRootTarget()
+    {
         Vector3 worldPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
         worldPosition = new Vector3(worldPosition.x, worldPosition.y, 0);
@@ -89,10 +106,11 @@ public class RootControler : MonoBehaviour
     }
 
 
-    void UpdateRoot(){
+    void UpdateRoot()
+    {
         UpdateRootTip();
 
-        Vector3 lastPosition = root.GetPosition(rootPointIndex-1);
+        Vector3 lastPosition = root.GetPosition(rootPointIndex - 1);
         Vector3 direction = rootTarget.position - lastPosition;
         direction = direction.normalized * rootTipLenght;
 
@@ -101,106 +119,124 @@ public class RootControler : MonoBehaviour
         // Does the ray intersect any objects excluding the player layer
         if (Physics.Raycast(lastPosition, direction, out hit, rootTipLenght, raycastMask))
         {
-            if(hit.collider.tag == "Core"){
+            if (hit.collider.tag == "Core")
+            {
                 dead = true;
-                if(gM.timer < gM.maxTime || !gM.newGamePlus){
+                if (gM.timer < gM.maxTime || !gM.newGamePlus)
+                {
                     gM.maxTime = gM.timer;
                     PlayerPrefs.SetFloat("MaxTime", gM.maxTime);
                 }
+
                 gM.cameraControler.End();
                 return;
             }
+
             Water water = hit.collider.GetComponent<Water>();
-            if(water!= null){
+            if (water != null)
+            {
                 water.Drink();
                 gM.sfx.PlayDrinkSFX();
-                health = Mathf.Min(health+water.waterAmount,maxHealth);
+                health = Mathf.Min(health + water.waterAmount, maxHealth);
                 Move();
                 for (var i = 0; i < 3; i++)
                 {
                     SmallRoot smallRoot = Instantiate(smallRootPrefab, transform).GetComponent<SmallRoot>();
-                    smallRoot.Initialize(direction, root.GetPosition(root.positionCount-3), gM, 0.5f+ gM.CapRoot/5f);
+                    smallRoot.Initialize(direction, root.GetPosition(root.positionCount - 3), gM,
+                        0.5f + gM.CapRoot / 5f);
                     smallRoots.Add(smallRoot.gameObject);
                 }
             }
 
             Poison poison = hit.collider.GetComponent<Poison>();
-            if(poison!=null){
+            if (poison != null)
+            {
                 gM.sfx.HurtSfx();
-                poisonned = Mathf.Min(4f,poisonned + 1f);
+                poisonned = Mathf.Min(4f, poisonned + 1f);
                 Move();
             }
-
-
         }
         else
         {
             Move();
         }
-
     }
 
-    void UpdateRootTip(){
-        Vector3 lastPosition = root.GetPosition(rootPointIndex-1);
+    void UpdateRootTip()
+    {
+        Vector3 lastPosition = root.GetPosition(rootPointIndex - 1);
         Vector3 direction = rootTarget.position - lastPosition;
         direction = direction.normalized * rootTipLenght;
         root.SetPosition(rootPointIndex, lastPosition + direction);
     }
 
-    void UpdateRootWidth(){
-        float rootIndex = (float)rootPointIndex;
+    void UpdateRootWidth()
+    {
+        float rootIndex = (float) rootPointIndex;
         AnimationCurve curve = new AnimationCurve();
         curve.AddKey(0, 1);
-        curve.AddKey((rootIndex-7f)/rootIndex, 0.9f);
-        curve.AddKey((rootIndex-6f)/rootIndex, 0.9f);
-        curve.AddKey((rootIndex)/rootIndex, 0.2f);
+        curve.AddKey((rootIndex - 7f) / rootIndex, 0.9f);
+        curve.AddKey((rootIndex - 6f) / rootIndex, 0.9f);
+        curve.AddKey((rootIndex) / rootIndex, 0.2f);
         curve.AddKey(1, 0);
         curve.SmoothTangents(1, 1f);
         curve.SmoothTangents(2, 1f);
         root.widthCurve = curve;
-        root.widthMultiplier = Mathf.Min(0.2f,root.positionCount * 0.0002f + 0.1f);
+        root.widthMultiplier = Mathf.Min(0.2f, root.positionCount * 0.0002f + 0.1f);
 
 
-
-
-
-        float index = (float)rootPointIndex;
+        float index = (float) rootPointIndex;
         float alpha = 1.0f;
         Gradient gradient = new Gradient();
         gradient.SetKeys(
-            new GradientColorKey[] { new GradientColorKey(rootBase, 0.0f),
-            new GradientColorKey(rootBase, (index-health*2f)/index - 1f/index),
-            new GradientColorKey(poisonned <= 0?rootWater:rootHurt, (index-health*2f)/index), 
-            new GradientColorKey(poisonned <= 0?rootWater:rootHurt, (index-health*2f)/index + 1f/index),
-            new GradientColorKey(poisonned <= 0?rootWater:rootHurt, 1.0f) },
-            new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
+            new GradientColorKey[]
+            {
+                new GradientColorKey(rootBase, 0.0f),
+                new GradientColorKey(rootBase, (index - health * 2f) / index - 1f / index),
+                new GradientColorKey(poisonned <= 0 ? rootWater : rootHurt, (index - health * 2f) / index),
+                new GradientColorKey(poisonned <= 0 ? rootWater : rootHurt, (index - health * 2f) / index + 1f / index),
+                new GradientColorKey(poisonned <= 0 ? rootWater : rootHurt, 1.0f)
+            },
+            new GradientAlphaKey[] {new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f)}
         );
         root.colorGradient = gradient;
     }
 
-    void Move(){
+    void Move()
+    {
         growing = true;
-        Vector3 lastPosition = root.GetPosition(rootPointIndex-1);
-        if(lastPosition.y < depth){depth = lastPosition.y;}
-        Vector3 direction = rootTarget.position - lastPosition;
-        if(direction.normalized.y < -gM.CapUpward){
-            currentTimeUntilNewRootPoint -= Time.fixedDeltaTime;
-        }else{
-            currentTimeUntilNewRootPoint -= Time.fixedDeltaTime * (Mathf.Max(0,(-direction.normalized.y + gM.CapUpward)));
+        Vector3 lastPosition = root.GetPosition(rootPointIndex - 1);
+        if (lastPosition.y < depth)
+        {
+            depth = lastPosition.y;
         }
 
-            if(currentTimeUntilNewRootPoint <= 0 && Vector3.Distance(rootTarget.position, lastPosition)>rootTipLenght*5f){
-                root.positionCount = root.positionCount + 1;
-                rootPointIndex++;
-                if(rootPointIndex%(int)(40f/gM.CapRoot+3f) == 0){
-                    SmallRoot smallRoot = Instantiate(smallRootPrefab, transform).GetComponent<SmallRoot>();
-                    smallRoot.Initialize(direction, root.GetPosition(root.positionCount-3), gM, 0.3f + gM.CapRoot/5f);
-                    smallRoots.Add(smallRoot.gameObject);
+        Vector3 direction = rootTarget.position - lastPosition;
+        if (direction.normalized.y < -gM.CapUpward)
+        {
+            currentTimeUntilNewRootPoint -= Time.fixedDeltaTime;
+        }
+        else
+        {
+            currentTimeUntilNewRootPoint -=
+                Time.fixedDeltaTime * (Mathf.Max(0, (-direction.normalized.y + gM.CapUpward)));
+        }
 
-                }
-                currentTimeUntilNewRootPoint = timeUntilNewRootPoint*gM.CapSpeed ;
-                UpdateRootTip();
-                gM.sfx.PlayGrowingSFX();
+        if (currentTimeUntilNewRootPoint <= 0 &&
+            Vector3.Distance(rootTarget.position, lastPosition) > rootTipLenght * 5f)
+        {
+            root.positionCount = root.positionCount + 1;
+            rootPointIndex++;
+            if (rootPointIndex % (int) (40f / gM.CapRoot + 3f) == 0)
+            {
+                SmallRoot smallRoot = Instantiate(smallRootPrefab, transform).GetComponent<SmallRoot>();
+                smallRoot.Initialize(direction, root.GetPosition(root.positionCount - 3), gM, 0.3f + gM.CapRoot / 5f);
+                smallRoots.Add(smallRoot.gameObject);
             }
+
+            currentTimeUntilNewRootPoint = timeUntilNewRootPoint * gM.CapSpeed;
+            UpdateRootTip();
+            gM.sfx.PlayGrowingSFX();
+        }
     }
 }

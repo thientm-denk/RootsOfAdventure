@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GM : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     public RootControler rootControler;
     public CameraControler cameraControler;
