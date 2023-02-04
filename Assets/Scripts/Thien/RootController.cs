@@ -4,20 +4,25 @@ namespace Thien
 {
     public class RootController : MonoBehaviour
     {
-
+        [Header("References Object")]
+        [SerializeField] private CameraController cameraController;
+        
+        [Header("Setting variable")]
+        [SerializeField] private float capStreng = 0.8f;
+        [SerializeField] private float capWater = 1.4f;
+     
+        private float timer;
+        
         public float health = 10f;
         public float maxHealth = 10f;
         public LineRenderer root;
-        
         public Camera mainCamera;
         public Transform rootTarget;
         public float rootTipLenght;
         public float timeUntilNewRootPoint;
         public float currentTimeUntilNewRootPoint;
         public int rootPointIndex = 1;
-
-        public LayerMask raycastMask;
-
+        
         public bool dead = true;
         public bool growing = false;
 
@@ -33,7 +38,6 @@ namespace Thien
             currentTimeUntilNewRootPoint = timeUntilNewRootPoint;
             health = maxHealth;
             startPositions = new Vector3[] {root.GetPosition(0), root.GetPosition(1), root.GetPosition(2)};
-            StartGame();
         }
 
         public void StartGame()
@@ -47,47 +51,48 @@ namespace Thien
             depth = 0;
             root.SetPositions(startPositions);
 
-            
         }
+        
 
-        void FixedUpdate()
+        private void Update()
         {
             if (dead)
             {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    StartGame();
+                }
                 return;
             }
 
             UpdateRootTarget();
             UpdateRoot();
             UpdateRootWidth();
-        }
-
-        private void Update()
-        {
+            
             if (dead || !growing)
             {
                 return;
             }
 
-//            UpdateHealth();
+            UpdateHealth();
         }
 
-//        private void UpdateHealth()
-//        {
-//            gM.timer += Time.deltaTime;
-//            if (poisonned > 0f)
-//            {
-//                health -= Time.deltaTime * gM.CapStrength;
-//                poisonned -= Time.deltaTime;
-//            }
-//
-//            health -= Time.deltaTime * gM.CapWater;
-//            if (health <= 0 && !dead)
-//            {
-//                dead = true;
-//                gM.cameraControler.Death();
-//            }
-//        }
+        private void UpdateHealth()
+        {
+            timer += Time.deltaTime;
+            if (poisonned > 0f)
+            {
+                health -= Time.deltaTime * capStreng;
+                poisonned -= Time.deltaTime;
+            }
+
+            health -= Time.deltaTime * capWater;
+            if (health <= 0 && !dead)
+            {
+                dead = true;
+                cameraController.Death();
+            }
+        }
 
         void UpdateRootTarget()
         {
