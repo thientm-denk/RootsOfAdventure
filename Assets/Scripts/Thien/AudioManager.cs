@@ -17,6 +17,7 @@ public class AudioManager : MonoBehaviour
             return;
         }
         musicTheme.UnPause();
+        isPlay = true;
     }
    
 }
