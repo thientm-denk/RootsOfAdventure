@@ -131,7 +131,10 @@ public class RootControler : MonoBehaviour
                 Move();
             }
 
+            if (hit.collider.CompareTag("Booster"))
+            {
 
+            }
         }
         else
         {
