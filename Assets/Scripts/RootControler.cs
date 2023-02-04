@@ -21,6 +21,8 @@ public class RootControler : MonoBehaviour
 
     public bool dead = true;
     public bool growing = false;
+    public bool isSpeedBuff = false;
+    public bool isPowerBuff = false;
     public List<GameObject> smallRoots;
 
     public Color rootBase, rootTip, rootWater, rootEnd, rootHurt, rootMagic;
@@ -133,7 +135,15 @@ public class RootControler : MonoBehaviour
 
             if (hit.collider.CompareTag("Booster"))
             {
+                Buff buff = hit.collider.GetComponent<Buff>();
+                if (buff.Type == Buff.BuffType.Speed) StartCoroutine(StartSpeedBuff());
+                if (buff.Type == Buff.BuffType.Power) StartCoroutine(StartPowerBuff());
+                Destroy(hit.collider.gameObject);
+            }
 
+            if (isPowerBuff)
+            {
+                Destroy(hit.collider.gameObject);
             }
         }
         else
@@ -162,9 +172,6 @@ public class RootControler : MonoBehaviour
         curve.SmoothTangents(2, 1f);
         root.widthCurve = curve;
         root.widthMultiplier = Mathf.Min(0.2f,root.positionCount * 0.0002f + 0.1f);
-
-
-
 
 
         float index = (float)rootPointIndex;
@@ -201,9 +208,23 @@ public class RootControler : MonoBehaviour
                     smallRoots.Add(smallRoot.gameObject);
 
                 }
-                currentTimeUntilNewRootPoint = timeUntilNewRootPoint*gM.CapSpeed ;
+                currentTimeUntilNewRootPoint = timeUntilNewRootPoint * ( isSpeedBuff ? gM.CapSpeed /10 : gM.CapSpeed) ;
                 UpdateRootTip();
                 gM.sfx.PlayGrowingSFX();
             }
+    }
+
+    public IEnumerator StartSpeedBuff()
+    {
+        isSpeedBuff = true;
+        yield return new WaitForSeconds(2f);
+        isSpeedBuff = false;
+    }
+
+    public IEnumerator StartPowerBuff()
+    {
+        isPowerBuff = true;
+        yield return new WaitForSeconds(10f);
+        isPowerBuff = false;
     }
 }

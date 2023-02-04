@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Rock
   - Core
+  - Booster
   layers:
   - Default
   - TransparentFX
