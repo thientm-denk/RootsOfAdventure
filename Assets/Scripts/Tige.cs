@@ -29,7 +29,8 @@ public class Tige : MonoBehaviour {
             transform.Rotate(Vector3.up, Random.Range(-30f,30f), Space.Self);
     }
 
-    IEnumerator Grow(){
+    IEnumerator Grow()
+    {
         flowers[0].localScale = Vector3.one;
         flowers[1].localScale = Vector3.zero;
         flowers[2].localScale = Vector3.zero;
