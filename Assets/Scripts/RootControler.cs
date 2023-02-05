@@ -11,7 +11,7 @@ public class RootControler : MonoBehaviour
     public LineRenderer root;
     public GameObject smallRootPrefab;
     public Camera mainCamera;
-    public Transform rootTarget;
+    public RootTarget rootTarget;
     public float rootTipLenght;
     public float timeUntilNewRootPoint;
     public float currentTimeUntilNewRootPoint;
@@ -21,6 +21,8 @@ public class RootControler : MonoBehaviour
 
     public bool dead = true;
     public bool growing = false;
+    public bool isSpeedBuff = false;
+    public bool isPowerBuff = false;
     public List<GameObject> smallRoots;
 
     public Color rootBase, rootTip, rootWater, rootEnd, rootHurt, rootMagic;
@@ -29,9 +31,7 @@ public class RootControler : MonoBehaviour
 
     public float depth = 0;
     Vector3[] startPositions;
-
-    private void Start()
-    {
+    private void Start() {
         currentTimeUntilNewRootPoint = timeUntilNewRootPoint;
         health = maxHealth;
         startPositions = new Vector3[] {root.GetPosition(0), root.GetPosition(1), root.GetPosition(2)};
@@ -84,7 +84,7 @@ public class RootControler : MonoBehaviour
         gM.timer += Time.deltaTime;
         if (poisonned > 0f)
         {
-            health -= Time.deltaTime * gM.CapStrength;
+            health -= Time.deltaTime * gM.CapStrength/2;
             poisonned -= Time.deltaTime;
         }
 
@@ -102,7 +102,7 @@ public class RootControler : MonoBehaviour
 
         worldPosition = new Vector3(worldPosition.x, worldPosition.y, 0);
 
-        rootTarget.position = worldPosition;
+        rootTarget.transform.position = worldPosition;
     }
 
 
@@ -110,8 +110,10 @@ public class RootControler : MonoBehaviour
     {
         UpdateRootTip();
 
+        rootTarget.PowerIcon.SetActive(isPowerBuff);
+        rootTarget.SpeedIcon.SetActive(isSpeedBuff);
         Vector3 lastPosition = root.GetPosition(rootPointIndex - 1);
-        Vector3 direction = rootTarget.position - lastPosition;
+        Vector3 direction = rootTarget.transform.position - lastPosition;
         direction = direction.normalized * rootTipLenght;
 
         // check if on rock
@@ -153,6 +155,27 @@ public class RootControler : MonoBehaviour
                 poisonned = Mathf.Min(4f, poisonned + 1f);
                 Move();
             }
+
+            if (hit.collider.CompareTag("Booster"))
+            {
+                Buff buff = hit.collider.GetComponent<Buff>();
+                if (buff.Type == Buff.BuffType.Speed)
+                {
+                    StopCoroutine(StartSpeedBuff());
+                    StartCoroutine(StartSpeedBuff());
+                }
+                if (buff.Type == Buff.BuffType.Power)
+                {
+                    StopCoroutine(StartPowerBuff());
+                    StartCoroutine(StartPowerBuff());
+                }
+                Destroy(hit.collider.gameObject);
+            }
+
+            if (isPowerBuff)
+            {
+                Destroy(hit.collider.gameObject);
+            }
         }
         else
         {
@@ -163,7 +186,7 @@ public class RootControler : MonoBehaviour
     void UpdateRootTip()
     {
         Vector3 lastPosition = root.GetPosition(rootPointIndex - 1);
-        Vector3 direction = rootTarget.position - lastPosition;
+        Vector3 direction = rootTarget.transform.position - lastPosition;
         direction = direction.normalized * rootTipLenght;
         root.SetPosition(rootPointIndex, lastPosition + direction);
     }
@@ -180,10 +203,10 @@ public class RootControler : MonoBehaviour
         curve.SmoothTangents(1, 1f);
         curve.SmoothTangents(2, 1f);
         root.widthCurve = curve;
-        root.widthMultiplier = Mathf.Min(0.2f, root.positionCount * 0.0002f + 0.1f);
+        root.widthMultiplier = Mathf.Min(0.2f,root.positionCount * 0.0002f + 0.1f);
 
 
-        float index = (float) rootPointIndex;
+        float index = (float)rootPointIndex;
         float alpha = 1.0f;
         Gradient gradient = new Gradient();
         gradient.SetKeys(
@@ -209,7 +232,7 @@ public class RootControler : MonoBehaviour
             depth = lastPosition.y;
         }
 
-        Vector3 direction = rootTarget.position - lastPosition;
+        Vector3 direction = rootTarget.transform.position - lastPosition;
         if (direction.normalized.y < -gM.CapUpward)
         {
             currentTimeUntilNewRootPoint -= Time.fixedDeltaTime;
@@ -220,20 +243,33 @@ public class RootControler : MonoBehaviour
                 Time.fixedDeltaTime * (Mathf.Max(0, (-direction.normalized.y + gM.CapUpward)));
         }
 
-        if (currentTimeUntilNewRootPoint <= 0 &&
-            Vector3.Distance(rootTarget.position, lastPosition) > rootTipLenght * 5f)
-        {
-            root.positionCount = root.positionCount + 1;
-            rootPointIndex++;
-            if (rootPointIndex % (int) (40f / gM.CapRoot + 3f) == 0)
-            {
-                SmallRoot smallRoot = Instantiate(smallRootPrefab, transform).GetComponent<SmallRoot>();
-                smallRoot.Initialize(direction, root.GetPosition(root.positionCount - 3), gM, 0.3f + gM.CapRoot / 5f);
-                smallRoots.Add(smallRoot.gameObject);
-            }
 
-            currentTimeUntilNewRootPoint = timeUntilNewRootPoint * gM.CapSpeed;
-            UpdateRootTip();
-        }
+            if(currentTimeUntilNewRootPoint <= 0 && Vector3.Distance(rootTarget.transform.position, lastPosition)>rootTipLenght*5f){
+                root.positionCount = root.positionCount + 1;
+                rootPointIndex++;
+                if(rootPointIndex%(int)(40f/gM.CapRoot+3f) == 0){
+                    SmallRoot smallRoot = Instantiate(smallRootPrefab, transform).GetComponent<SmallRoot>();
+                    smallRoot.Initialize(direction, root.GetPosition(root.positionCount-3), gM, 0.3f + gM.CapRoot/5f);
+                    smallRoots.Add(smallRoot.gameObject);
+
+                }
+                currentTimeUntilNewRootPoint = timeUntilNewRootPoint * ( isSpeedBuff ? gM.CapSpeed /10 : gM.CapSpeed/2 ) ;
+                UpdateRootTip();
+                //gM.sfx.PlayGrowingSFX();
+            }
+    }
+
+    public IEnumerator StartSpeedBuff()
+    {
+        isSpeedBuff = true;
+        yield return new WaitForSeconds(2f);
+        isSpeedBuff = false;
+    }
+
+    public IEnumerator StartPowerBuff()
+    {
+        isPowerBuff = true;
+        yield return new WaitForSeconds(10f);
+        isPowerBuff = false;
     }
 }

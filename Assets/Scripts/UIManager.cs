@@ -16,6 +16,8 @@ public class UIManager : MonoBehaviour
     public GameObject restartButton;
     public GameObject scoreUI;
     public GameObject endUI;
+    public GameObject tree;
+    public Animator animator;
     public Text maxTime;
     public int lastCash = 0;
     public List<EndFlower> tiges;
@@ -59,6 +61,18 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void StartGame()
+    {
+        tree.transform.localScale = Vector3.one;
+        animator.ResetTrigger("Re");
+        animator.SetTrigger("Re");
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
     public void ShowDeathUI()
     {
         StartCoroutine(ShowDeathUIRoutine());
@@ -84,6 +98,9 @@ public class UIManager : MonoBehaviour
     IEnumerator ShowDeathUIRoutine()
     {
         deathUI.SetActive(true);
+        tree.transform.localScale = Vector3.one * Mathf.Clamp( Mathf.Abs(gM.rootControler.depth/50) ,0.2f,1f);
+        animator.ResetTrigger("Grow");
+        animator.SetTrigger("Grow");
 
         for (var i = 0; i <= -(int) (gM.rootControler.depth / 20f); i++)
         {
@@ -109,10 +126,13 @@ public class UIManager : MonoBehaviour
     IEnumerator ShowEndUIRoutine()
     {
         scoreUI.SetActive(false);
+
+        
+
         for (var i = 0; i <= 10; i++)
         {
-            int leftover = Mathf.Min(20, 2000 - i * 20);
-            tiges[i].Initialize(leftover, i * 20, gM);
+            int leftover = Mathf.Min(20, 200 - i *5);
+            tiges[i].Initialize(leftover, i * 5, gM);
             while (!tiges[i].finishedGrowing)
             {
                 yield return null;
